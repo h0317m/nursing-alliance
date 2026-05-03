@@ -8,7 +8,7 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;background:#060f22;color:#fff;}
 
-.page{width:794px;min-height:1123px;margin:0 auto;background:#060f22;position:relative;overflow:hidden;}
+.page{max-width:794px;min-height:1123px;margin:0 auto;background:#060f22;position:relative;overflow:hidden;}
 
 /* 背景装飾 */
 .bg-deco{position:absolute;inset:0;pointer-events:none;}
@@ -80,6 +80,39 @@ body{font-family:'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;background:#0
 .footer-copy strong{color:#c9a84c;}
 .footer-sns{display:flex;gap:16px;}
 .footer-sns a{font-size:10px;color:#5a7090;text-decoration:none;display:flex;align-items:center;gap:4px;}
+
+/* ══ レスポンシブ ══ */
+@media(max-width:600px){
+  .header{padding:20px 16px 16px;flex-wrap:wrap;gap:12px;}
+  .header-badge{padding:7px 14px;}
+  .header-badge-val{font-size:12px;}
+  .logo-mark{width:48px;height:48px;}
+  .brand-top{font-size:17px;letter-spacing:3px;}
+  .hero{padding:20px 16px 16px;}
+  .hero h1{font-size:20px;}
+  .hero-sub{font-size:11px;}
+  .goods-section{padding:4px 12px 24px;}
+  .goods-grid{grid-template-columns:1fr;gap:14px;}
+  .goods-img{height:200px;}
+  .goods-name{font-size:15px;}
+  .goods-desc{font-size:11px;}
+  .goods-price{font-size:22px;}
+  .perk-bar{margin:0 12px 20px;flex-direction:column;gap:8px;}
+  .order-banner{margin:0 12px 28px;padding:20px 18px;flex-direction:column;align-items:flex-start;gap:16px;}
+  .order-text h3{font-size:14px;}
+  .order-text p{font-size:11px;}
+  .order-actions{flex-direction:row;align-items:center;width:100%;}
+  .order-btn{width:100%;text-align:center;padding:14px;font-size:14px;}
+  .footer{padding:16px;flex-direction:column;align-items:flex-start;gap:10px;}
+}
+@media(min-width:601px) and (max-width:793px){
+  .header{padding:24px 28px 20px;}
+  .goods-section{padding:4px 28px 28px;}
+  .goods-grid{grid-template-columns:repeat(2,1fr);}
+  .perk-bar{margin:0 28px 22px;}
+  .order-banner{margin:0 28px 28px;}
+  .footer{padding:16px 28px;}
+}
 </style>
 </head>
 <body>
