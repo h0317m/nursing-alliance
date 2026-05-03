@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nursing Alliance グッズ</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;background:#060f22;color:#fff;}
+
+/* ── ページ全体 ── */
+.page{width:794px;min-height:1123px;margin:0 auto;background:#060f22;position:relative;overflow:hidden;}
+
+/* ── 背景装飾 ── */
+.bg-circle1{position:absolute;width:500px;height:500px;border-radius:50%;border:1px solid rgba(201,168,76,0.08);top:-120px;right:-120px;}
+.bg-circle2{position:absolute;width:340px;height:340px;border-radius:50%;border:1px solid rgba(201,168,76,0.06);top:-60px;right:-60px;}
+.bg-circle3{position:absolute;width:600px;height:600px;border-radius:50%;border:1px solid rgba(201,168,76,0.04);bottom:-200px;left:-200px;}
+.bg-line{position:absolute;width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,0.3),transparent);top:260px;}
+
+/* ── ヘッダー ── */
+.header{padding:40px 56px 32px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(201,168,76,0.2);}
+.header-left{display:flex;align-items:center;gap:18px;}
+.logo-mark{width:64px;height:64px;}
+.brand-name{display:flex;flex-direction:column;}
+.brand-top{font-size:22px;font-weight:900;letter-spacing:4px;color:#fff;}
+.brand-bottom{font-size:10px;letter-spacing:4px;color:#c9a84c;display:flex;align-items:center;gap:6px;}
+.brand-bottom::before,.brand-bottom::after{content:'';display:block;width:18px;height:1px;background:#c9a84c;}
+.header-badge{background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.4);border-radius:4px;padding:8px 18px;text-align:center;}
+.header-badge p{font-size:9px;color:#c9a84c;letter-spacing:2px;margin-bottom:2px;}
+.header-badge span{font-size:14px;font-weight:700;color:#fff;}
+
+/* ── ヒーロー ── */
+.hero{padding:40px 56px 36px;text-align:center;position:relative;}
+.hero-tag{display:inline-block;background:rgba(201,168,76,0.15);color:#c9a84c;font-size:10px;padding:4px 18px;border-radius:20px;letter-spacing:2px;margin-bottom:16px;border:1px solid rgba(201,168,76,0.35);}
+.hero h1{font-size:30px;font-weight:900;line-height:1.3;margin-bottom:10px;letter-spacing:1px;}
+.hero h1 span{color:#c9a84c;}
+.hero-sub{font-size:12px;color:#8aa0c8;line-height:1.9;}
+
+/* ── 商品グリッド ── */
+.goods-section{padding:0 56px 40px;}
+.goods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+
+.goods-card{background:#0d2141;border:1px solid rgba(201,168,76,0.18);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;}
+.goods-card.featured{border-color:#c9a84c;border-width:2px;}
+
+.goods-img{height:160px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.goods-img.tshirt{background:linear-gradient(135deg,#0d2141 0%,#162f5a 100%);}
+.goods-img.tote{background:linear-gradient(135deg,#0a1e3a 0%,#0d2141 100%);}
+.goods-img.mug{background:linear-gradient(135deg,#112a55 0%,#0d2141 100%);}
+.goods-img.sticker{background:linear-gradient(135deg,#060f22 0%,#0d2141 100%);}
+.goods-img.cap{background:linear-gradient(135deg,#0d2141 0%,#1a3560 100%);}
+.goods-img.notebook{background:linear-gradient(135deg,#0a1e3a 0%,#112a55 100%);}
+
+.goods-img-label{position:absolute;bottom:8px;right:10px;font-size:8px;color:rgba(201,168,76,0.5);letter-spacing:2px;}
+
+.goods-body{padding:14px 16px;flex:1;display:flex;flex-direction:column;}
+.goods-name{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px;}
+.goods-desc{font-size:10px;color:#8aa0c8;line-height:1.6;flex:1;margin-bottom:10px;}
+.goods-price{font-size:18px;font-weight:800;color:#c9a84c;}
+.goods-price span{font-size:10px;color:#8aa0c8;font-weight:400;margin-left:2px;}
+.goods-badge{display:inline-block;background:#c9a84c;color:#0d2141;font-size:8px;font-weight:700;padding:2px 8px;border-radius:3px;margin-bottom:6px;letter-spacing:1px;}
+
+/* ── Tシャツ SVG ── */
+.tshirt-svg{width:90px;height:90px;filter:drop-shadow(0 4px 12px rgba(201,168,76,0.3));}
+.tote-svg{width:80px;height:90px;filter:drop-shadow(0 4px 12px rgba(201,168,76,0.25));}
+.mug-svg{width:80px;height:80px;filter:drop-shadow(0 4px 12px rgba(201,168,76,0.25));}
+.sticker-svg{width:100px;height:80px;}
+.cap-svg{width:90px;height:70px;filter:drop-shadow(0 4px 12px rgba(201,168,76,0.25));}
+.notebook-svg{width:70px;height:90px;filter:drop-shadow(0 4px 12px rgba(201,168,76,0.25));}
+
+/* ── 注文バナー ── */
+.order-banner{margin:0 56px 36px;background:linear-gradient(135deg,#112a55 0%,#0d2141 100%);border:2px solid #c9a84c;border-radius:12px;padding:28px 36px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.order-text h3{font-size:16px;font-weight:800;margin-bottom:6px;}
+.order-text p{font-size:11px;color:#8aa0c8;line-height:1.7;}
+.order-text p strong{color:#c9a84c;}
+.order-qr{display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;}
+.qr-box{width:80px;height:80px;background:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;}
+.order-qr p{font-size:9px;color:#8aa0c8;letter-spacing:1px;}
+.order-btn{background:#c9a84c;color:#0d2141;padding:14px 28px;border-radius:6px;font-size:13px;font-weight:800;text-decoration:none;display:inline-block;flex-shrink:0;letter-spacing:0.5px;}
+
+/* ── 特典バー ── */
+.perk-bar{margin:0 56px 40px;display:flex;gap:12px;}
+.perk{flex:1;background:#0d2141;border:1px solid rgba(201,168,76,0.15);border-radius:8px;padding:14px 16px;display:flex;align-items:center;gap:12px;}
+.perk-icon{width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.perk-text p{font-size:11px;font-weight:700;color:#fff;margin-bottom:2px;}
+.perk-text span{font-size:10px;color:#8aa0c8;}
+
+/* ── フッター ── */
+.footer{border-top:1px solid rgba(201,168,76,0.15);padding:20px 56px;display:flex;align-items:center;justify-content:space-between;}
+.footer-left{font-size:9px;color:#4a5a7a;line-height:1.7;}
+.footer-left strong{color:#c9a84c;}
+.footer-sns{display:flex;gap:14px;align-items:center;}
+.footer-sns a{font-size:10px;color:#6a82a8;text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- 背景装飾 -->
+  <div class="bg-circle1"></div>
+  <div class="bg-circle2"></div>
+  <div class="bg-circle3"></div>
+  <div class="bg-line"></div>
+
+  <!-- ヘッダー -->
+  <div class="header">
+    <div class="header-left">
+      <!-- ロゴマーク SVG -->
+      <svg class="logo-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="32" cy="32" r="30" stroke="#c9a84c" stroke-width="2.5" fill="#0d2141"/>
+        <!-- ウィング左 -->
+        <path d="M18 42 Q14 30 22 22 Q26 18 30 24 Q24 28 22 36 Z" fill="#4a7ab5" opacity="0.8"/>
+        <!-- ウィング右 -->
+        <path d="M46 42 Q50 30 42 22 Q38 18 34 24 Q40 28 42 36 Z" fill="#4a7ab5" opacity="0.8"/>
+        <!-- ハートライン -->
+        <path d="M32 44 Q20 34 20 26 C20 21 24 18 28 20 C30 21 31 23 32 25 C33 23 34 21 36 20 C40 18 44 21 44 26 C44 34 32 44 32 44Z" fill="none" stroke="#c9a84c" stroke-width="2.2" stroke-linejoin="round"/>
+        <!-- 中心ドット -->
+        <circle cx="32" cy="27" r="2.5" fill="#8aa0c8"/>
+      </svg>
+      <div class="brand-name">
+        <span class="brand-top">NURSING</span>
+        <span class="brand-bottom">ALLIANCE</span>
+      </div>
+    </div>
+    <div class="header-badge">
+      <p>OFFICIAL GOODS</p>
+      <span>2025 コレクション</span>
+    </div>
+  </div>
+
+  <!-- ヒーロー -->
+  <div class="hero">
+    <div class="hero-tag">LIMITED COLLECTION</div>
+    <h1>手術室看護師のための<br><span>オリジナルグッズ</span></h1>
+    <p class="hero-sub">Nursing Alliance のロゴを纏い、仲間とのつながりをカタチに。<br>全国の手術室ナースと誇りを共有するオフィシャルアイテム。</p>
+  </div>
+
+  <!-- 商品グリッド -->
+  <div class="goods-section">
+    <div class="goods-grid">
+
+      <!-- Tシャツ -->
+      <div class="goods-card featured">
+        <div class="goods-img tshirt">
+          <svg class="tshirt-svg" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 28 L25 18 Q32 14 38 18 L45 22 L52 18 Q58 14 65 18 L80 28 L70 38 L62 32 L62 72 L28 72 L28 32 L20 38 Z" fill="#c9a84c" opacity="0.15" stroke="#c9a84c" stroke-width="1.2"/>
+            <!-- ロゴ小 -->
+            <circle cx="45" cy="50" r="12" stroke="#c9a84c" stroke-width="1" fill="none"/>
+            <path d="M45 58 Q40 54 40 50 C40 48 42 47 44 48 C44.5 48.3 45 49 45 50 C45 49 45.5 48.3 46 48 C48 47 50 48 50 50 C50 54 45 58 45 58Z" fill="none" stroke="#c9a84c" stroke-width="1"/>
+          </svg>
+          <span class="goods-img-label">TEE SHIRT</span>
+        </div>
+        <div class="goods-body">
+          <span class="goods-badge">BEST SELLER</span>
+          <p class="goods-name">ロゴTシャツ</p>
+          <p class="goods-desc">ユニセックスシルエット。左胸にロゴ刺繍、背面にNursing Allianceテキスト。素材：綿100%</p>
+          <div class="goods-price">¥3,800<span>（税込）</span></div>
+        </div>
+      </div>
+
+      <!-- トートバッグ -->
+      <div class="goods-card">
+        <div class="goods-img tote">
+          <svg class="tote-svg" viewBox="0 0 80 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15 30 Q12 28 14 60 Q14 75 40 75 Q66 75 66 60 Q68 28 65 30 Z" fill="#0d2141" stroke="#c9a84c" stroke-width="1.2"/>
+            <path d="M27 30 Q27 18 40 18 Q53 18 53 30" stroke="#c9a84c" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <!-- ロゴ -->
+            <circle cx="40" cy="54" r="11" stroke="#c9a84c" stroke-width="0.8" fill="none" opacity="0.7"/>
+            <path d="M40 61 Q35 57 35 53 C35 51 37 50 39 51 C39.5 51.3 40 52 40 53 C40 52 40.5 51.3 41 51 C43 50 45 51 45 53 C45 57 40 61 40 61Z" fill="none" stroke="#c9a84c" stroke-width="0.9"/>
+          </svg>
+          <span class="goods-img-label">TOTE BAG</span>
+        </div>
+        <div class="goods-body">
+          <p class="goods-name">キャンバストートバッグ</p>
+          <p class="goods-desc">A4対応のたっぷりマチ付き。通勤・院内移動にも活躍。素材：コットンキャンバス</p>
+          <div class="goods-price">¥2,500<span>（税込）</span></div>
+        </div>
+      </div>
+
+      <!-- マグカップ -->
+      <div class="goods-card">
+        <div class="goods-img mug">
+          <svg class="mug-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 28 L16 62 Q16 70 28 70 L52 70 Q64 70 64 62 L64 28 Z" fill="#0d2141" stroke="#c9a84c" stroke-width="1.2"/>
+            <path d="M64 36 Q74 36 74 46 Q74 56 64 56" stroke="#c9a84c" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- ロゴ -->
+            <circle cx="40" cy="50" r="11" stroke="#c9a84c" stroke-width="0.8" fill="none" opacity="0.7"/>
+            <path d="M40 57 Q35 53 35 49 C35 47 37 46 39 47 C39.5 47.3 40 48 40 49 C40 48 40.5 47.3 41 47 C43 46 45 47 45 49 C45 53 40 57 40 57Z" fill="none" stroke="#c9a84c" stroke-width="0.9"/>
+            <!-- 湯気 -->
+            <path d="M28 22 Q30 18 28 14" stroke="#c9a84c" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5"/>
+            <path d="M40 20 Q42 16 40 12" stroke="#c9a84c" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5"/>
+            <path d="M52 22 Q54 18 52 14" stroke="#c9a84c" stroke-width="1" fill="none" stroke-linecap="round" opacity="0.5"/>
+          </svg>
+          <span class="goods-img-label">MUG CUP</span>
+        </div>
+        <div class="goods-body">
+          <p class="goods-name">ロゴマグカップ</p>
+          <p class="goods-desc">食洗機対応・電子レンジ可。容量350ml。休憩室での一杯にぴったり。</p>
+          <div class="goods-price">¥2,200<span>（税込）</span></div>
+        </div>
+      </div>
+
+      <!-- ステッカー -->
+      <div class="goods-card">
+        <div class="goods-img sticker">
+          <svg class="sticker-svg" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- 大ステッカー -->
+            <circle cx="32" cy="40" r="26" fill="#0d2141" stroke="#c9a84c" stroke-width="1.5"/>
+            <circle cx="32" cy="40" r="21" stroke="#c9a84c" stroke-width="0.5" stroke-dasharray="3 2" opacity="0.5"/>
+            <path d="M32 50 Q24 44 24 38 C24 35 27 33 30 35 C31 35.5 32 37 32 38 C32 37 33 35.5 34 35 C37 33 40 35 40 38 C40 44 32 50 32 50Z" fill="none" stroke="#c9a84c" stroke-width="1.5"/>
+            <!-- 小ステッカー（丸角四角） -->
+            <rect x="62" y="12" width="32" height="32" rx="6" fill="#0d2141" stroke="#c9a84c" stroke-width="1.2"/>
+            <circle cx="78" cy="28" r="9" stroke="#c9a84c" stroke-width="0.7" fill="none" opacity="0.7"/>
+            <path d="M78 34 Q74 31 74 28 C74 26.5 75.5 26 77 27 C77.4 27.3 78 28 78 28 C78 28 78.6 27.3 79 27 C80.5 26 82 26.5 82 28 C82 31 78 34 78 34Z" fill="none" stroke="#c9a84c" stroke-width="0.8"/>
+            <!-- テキストステッカー -->
+            <rect x="62" y="52" width="32" height="18" rx="4" fill="#c9a84c"/>
+            <text x="78" y="64" text-anchor="middle" font-size="7" font-weight="700" fill="#0d2141" font-family="'Segoe UI',sans-serif">ALLIANCE</text>
+          </svg>
+          <span class="goods-img-label">STICKER SET</span>
+        </div>
+        <div class="goods-body">
+          <p class="goods-name">ステッカーセット</p>
+          <p class="goods-desc">防水・耐UV仕様3枚セット。ロゴ丸・スクエア・テキストの3種類。</p>
+          <div class="goods-price">¥800<span>（税込）</span></div>
+        </div>
+      </div>
+
+      <!-- キャップ -->
+      <div class="goods-card">
+        <div class="goods-img cap">
+          <svg class="cap-svg" viewBox="0 0 90 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 46 Q10 22 45 18 Q80 22 80 46 Z" fill="#0d2141" stroke="#c9a84c" stroke-width="1.2"/>
+            <path d="M5 46 L85 46 Q85 52 45 52 Q5 52 5 46Z" fill="#0d2141" stroke="#c9a84c" stroke-width="1.2"/>
+            <line x1="10" y1="46" x2="80" y2="46" stroke="#c9a84c" stroke-width="0.5" opacity="0.5"/>
+            <!-- ロゴ前面 -->
+            <circle cx="45" cy="35" r="10" stroke="#c9a84c" stroke-width="0.8" fill="none" opacity="0.8"/>
+            <path d="M45 42 Q40 38 40 35 C40 33 42 32 44 33 C44.5 33.3 45 34 45 35 C45 34 45.5 33.3 46 33 C48 32 50 33 50 35 C50 38 45 42 45 42Z" fill="none" stroke="#c9a84c" stroke-width="1"/>
+            <!-- ひさし -->
+            <path d="M10 52 Q8 56 12 58 L40 58 Q45 56 45 52Z" fill="#0a1a36" stroke="#c9a84c" stroke-width="0.8"/>
+          </svg>
+          <span class="goods-img-label">CAP</span>
+        </div>
+        <div class="goods-body">
+          <p class="goods-name">ロゴキャップ</p>
+          <p class="goods-desc">前面ロゴ刺繍入り。サイズ調整ストラップ付き。ユニセックスフリーサイズ。</p>
+          <div class="goods-price">¥3,200<span>（税込）</span></div>
+        </div>
+      </div>
+
+      <!-- ノート -->
+      <div class="goods-card">
+        <div class="goods-img notebook">
+          <svg class="notebook-svg" viewBox="0 0 70 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="14" y="8" width="48" height="74" rx="4" fill="#0d2141" stroke="#c9a84c" stroke-width="1.2"/>
+            <rect x="8" y="10" width="10" height="70" rx="3" fill="#112a55" stroke="#c9a84c" stroke-width="1"/>
+            <!-- リング -->
+            <circle cx="13" cy="24" r="3" stroke="#c9a84c" stroke-width="1" fill="#060f22"/>
+            <circle cx="13" cy="38" r="3" stroke="#c9a84c" stroke-width="1" fill="#060f22"/>
+            <circle cx="13" cy="52" r="3" stroke="#c9a84c" stroke-width="1" fill="#060f22"/>
+            <circle cx="13" cy="66" r="3" stroke="#c9a84c" stroke-width="1" fill="#060f22"/>
+            <!-- ロゴ -->
+            <circle cx="38" cy="40" r="14" stroke="#c9a84c" stroke-width="1" fill="none" opacity="0.6"/>
+            <path d="M38 50 Q31 44 31 39 C31 36.5 33.5 35 36 36.5 C37 37.1 38 38.5 38 39 C38 38.5 39 37.1 40 36.5 C42.5 35 45 36.5 45 39 C45 44 38 50 38 50Z" fill="none" stroke="#c9a84c" stroke-width="1.3"/>
+            <!-- テキスト線 -->
+            <line x1="25" y1="60" x2="51" y2="60" stroke="#c9a84c" stroke-width="0.5" opacity="0.4"/>
+            <line x1="25" y1="65" x2="45" y2="65" stroke="#c9a84c" stroke-width="0.5" opacity="0.3"/>
+          </svg>
+          <span class="goods-img-label">NOTEBOOK</span>
+        </div>
+        <div class="goods-body">
+          <p class="goods-name">リングノート A5</p>
+          <p class="goods-desc">表紙ロゴ入り・A5サイズ80枚。勉強会やカンファレンスのメモに。</p>
+          <div class="goods-price">¥1,200<span>（税込）</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 特典バー -->
+  <div class="perk-bar">
+    <div class="perk">
+      <div class="perk-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="#c9a84c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="perk-text">
+        <p>送料無料</p>
+        <span>3,000円以上のご注文</span>
+      </div>
+    </div>
+    <div class="perk">
+      <div class="perk-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="8" width="18" height="13" rx="2" stroke="#c9a84c" stroke-width="2"/><path d="M16 8V6a4 4 0 00-8 0v2" stroke="#c9a84c" stroke-width="2"/></svg>
+      </div>
+      <div class="perk-text">
+        <p>会員限定 <strong style="color:#c9a84c;">10%OFF</strong></p>
+        <span>Nursing Alliance 会員は割引適用</span>
+      </div>
+    </div>
+    <div class="perk">
+      <div class="perk-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#c9a84c" stroke-width="2" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="perk-text">
+        <p>安心保証</p>
+        <span>不良品は無償交換対応</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 注文バナー -->
+  <div class="order-banner">
+    <div class="order-text">
+      <h3>オンラインショップでご注文受付中</h3>
+      <p>会員登録フォームからグッズ注文ページへアクセスできます。<br>
+      在庫に限りがございますのでお早めに。<br>
+      <strong>お問い合わせ：nursing.alliance.official@gmail.com</strong></p>
+    </div>
+    <div class="order-qr">
+      <!-- QRコード代替SVG -->
+      <div class="qr-box">
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="4" y="4" width="22" height="22" rx="2" stroke="#0d2141" stroke-width="2" fill="none"/>
+          <rect x="9" y="9" width="12" height="12" rx="1" fill="#0d2141"/>
+          <rect x="34" y="4" width="22" height="22" rx="2" stroke="#0d2141" stroke-width="2" fill="none"/>
+          <rect x="39" y="9" width="12" height="12" rx="1" fill="#0d2141"/>
+          <rect x="4" y="34" width="22" height="22" rx="2" stroke="#0d2141" stroke-width="2" fill="none"/>
+          <rect x="9" y="39" width="12" height="12" rx="1" fill="#0d2141"/>
+          <rect x="34" y="34" width="4" height="4" fill="#0d2141"/>
+          <rect x="40" y="34" width="4" height="4" fill="#0d2141"/>
+          <rect x="46" y="34" width="4" height="4" fill="#0d2141"/>
+          <rect x="52" y="34" width="4" height="4" fill="#0d2141"/>
+          <rect x="34" y="40" width="4" height="4" fill="#0d2141"/>
+          <rect x="46" y="40" width="4" height="4" fill="#0d2141"/>
+          <rect x="34" y="46" width="4" height="4" fill="#0d2141"/>
+          <rect x="40" y="46" width="4" height="4" fill="#0d2141"/>
+          <rect x="52" y="46" width="4" height="4" fill="#0d2141"/>
+          <rect x="34" y="52" width="4" height="4" fill="#0d2141"/>
+          <rect x="46" y="52" width="4" height="4" fill="#0d2141"/>
+          <rect x="52" y="52" width="4" height="4" fill="#0d2141"/>
+        </svg>
+      </div>
+      <p>QRでアクセス</p>
+    </div>
+    <a href="https://forms.gle/ic987XoRMst3GooWA" target="_blank" class="order-btn">今すぐ注文する →</a>
+  </div>
+
+  <!-- フッター -->
+  <div class="footer">
+    <div class="footer-left">
+      <strong>© 2025 Nursing Alliance</strong><br>
+      手術室看護師のためのコミュニティ。全国のナースと学び、繋がろう。
+    </div>
+    <div class="footer-sns">
+      <a href="https://www.instagram.com/nursing_alliance" target="_blank">📷 Instagram</a>
+      <a href="https://line.me/ti/g2/y1MkPGzeMsnV_W_1qLpAft2m2LWmGvv97I6gow" target="_blank">💬 LINE</a>
+      <a href="https://peatix.com" target="_blank">🎟 Peatix</a>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
