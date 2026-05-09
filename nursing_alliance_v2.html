@@ -304,36 +304,83 @@ body{font-family:'Segoe UI',sans-serif;background:#fff;}
       <a href="https://note.com/nursing_alliance" target="_blank" style="font-size:12px;color:#c9a84c;text-decoration:none;font-weight:600;">すべて見る →</a>
     </div>
     <p class="section-desc dark">noteで最新記事を公開中です。手術室・周術期看護に関するコラムをお届けしています。</p>
-    <div class="blog-grid">
+    <div class="blog-grid" id="note-blog-grid">
+      <!-- noteから自動取得 -->
       <a href="https://note.com/nursing_alliance" target="_blank" class="blog-card" style="text-decoration:none;cursor:pointer;">
         <div class="blog-img"><span class="blog-img-label">NURSING ALLIANCE</span></div>
         <div class="blog-body">
-          <div class="blog-tag">手術室管理</div>
-          <div class="blog-title">診療報酬改定2026と手術室看護師への影響</div>
-          <div class="blog-date">2025.04.01</div>
-        </div>
-      </a>
-      <a href="https://note.com/nursing_alliance" target="_blank" class="blog-card" style="text-decoration:none;cursor:pointer;">
-        <div class="blog-img"><span class="blog-img-label">NURSING ALLIANCE</span></div>
-        <div class="blog-body">
-          <div class="blog-tag">周術期看護</div>
-          <div class="blog-title">麻酔管理料Ⅱとは何か？現場の看護師が知っておくこと</div>
-          <div class="blog-date">2025.03.25</div>
-          <div class="blog-badge">会員限定</div>
-        </div>
-      </a>
-      <a href="https://note.com/nursing_alliance" target="_blank" class="blog-card" style="text-decoration:none;cursor:pointer;">
-        <div class="blog-img"><span class="blog-img-label">NURSING ALLIANCE</span></div>
-        <div class="blog-body">
-          <div class="blog-tag">キャリア</div>
-          <div class="blog-title">手術室ナースのキャリアパスを考える</div>
-          <div class="blog-date">2025.03.18</div>
-          <div class="blog-badge">会員限定</div>
+          <div class="blog-title" style="color:#8aa0c8;font-size:12px;">記事を読み込み中...</div>
         </div>
       </a>
     </div>
   </div>
 </section>
+
+<script>
+(function() {
+  const NOTE_USER = 'nursing_alliance';
+  const NOTE_URL = 'https://note.com/' + NOTE_USER;
+  const PROXY = 'https://api.allorigins.win/get?url=';
+  const RSS_URL = encodeURIComponent('https://note.com/' + NOTE_USER + '/rss');
+
+  function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    if (isNaN(d)) return '';
+    return d.getFullYear() + '.' +
+      String(d.getMonth() + 1).padStart(2, '0') + '.' +
+      String(d.getDate()).padStart(2, '0');
+  }
+
+  function buildCards(items) {
+    const grid = document.getElementById('note-blog-grid');
+    if (!grid || items.length === 0) return;
+    grid.innerHTML = items.slice(0, 3).map(item => {
+      const thumb = item.thumb
+        ? `<div class="blog-img" style="height:120px;background:url('${item.thumb}') center/cover no-repeat;"></div>`
+        : `<div class="blog-img"><span class="blog-img-label">NURSING ALLIANCE</span></div>`;
+      return `
+      <a href="${item.link}" target="_blank" class="blog-card" style="text-decoration:none;cursor:pointer;">
+        ${thumb}
+        <div class="blog-body">
+          <div class="blog-title">${item.title}</div>
+          <div class="blog-date">${formatDate(item.date)}</div>
+        </div>
+      </a>`;
+    }).join('');
+  }
+
+  fetch(PROXY + RSS_URL)
+    .then(r => r.json())
+    .then(data => {
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data.contents, 'text/xml');
+      const items = Array.from(xml.querySelectorAll('item')).map(el => {
+        const thumb = el.querySelector('enclosure') 
+          ? el.querySelector('enclosure').getAttribute('url') 
+          : (el.querySelector('thumbnail') ? el.querySelector('thumbnail').getAttribute('url') : null);
+        return {
+          title: el.querySelector('title') ? el.querySelector('title').textContent : '',
+          link:  el.querySelector('link')  ? el.querySelector('link').textContent  : NOTE_URL,
+          date:  el.querySelector('pubDate') ? el.querySelector('pubDate').textContent : '',
+          thumb: thumb
+        };
+      });
+      buildCards(items);
+    })
+    .catch(() => {
+      // 取得失敗時はnoteへのリンクのみ表示
+      const grid = document.getElementById('note-blog-grid');
+      if (grid) {
+        grid.innerHTML = `
+        <a href="${NOTE_URL}" target="_blank" class="blog-card" style="text-decoration:none;cursor:pointer;grid-column:1/-1;">
+          <div class="blog-body" style="padding:24px;text-align:center;">
+            <div class="blog-title">noteで最新記事を読む →</div>
+          </div>
+        </a>`;
+      }
+    });
+})();
+</script>
 
 <!-- Section 5：紺 ── CTA -->
 <section class="section sec-navy" style="text-align:center;">
