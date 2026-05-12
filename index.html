@@ -60,10 +60,10 @@ body{font-family:'Segoe UI',sans-serif;background:#fff;}
 /* ── 会員プラン（スクショ準拠） ── */
 .plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:820px;margin:0 auto;}
 .plan-box{border-radius:12px;padding:28px;}
-.[plan-box.free](http://plan-box.free){background:#112a55;border:1px solid rgba(255,255,255,0.12);}
+.plan-box.free{background:#112a55;border:1px solid rgba(255,255,255,0.12);}
 .plan-box.paid{background:#112a55;border:2px solid #c9a84c;}
 .plan-badge{display:inline-block;background:rgba(255,255,255,0.15);color:#fff;font-size:10px;padding:3px 12px;border-radius:20px;margin-bottom:14px;font-weight:600;}
-.[plan-badge.gold](http://plan-badge.gold){background:#c9a84c;color:#0d2141;}
+.plan-badge.gold{background:#c9a84c;color:#0d2141;}
 .plan-price{font-size:34px;font-weight:800;color:#fff;margin-bottom:4px;}
 .plan-price-note{font-size:11px;color:#8aa0c8;margin-bottom:18px;}
 .plan-divider{border:none;border-top:1px solid rgba(255,255,255,0.1);margin:14px 0;}
@@ -145,7 +145,7 @@ body{font-family:'Segoe UI',sans-serif;background:#fff;}
   </div>
   <div class="nav-links">
     <a href="#">水パチとは</a>
-    <a href="#">ブログ</a>
+    <a href="https://note.com/nursing_alliance" target="_blank">ブログ</a>
     <a href="#">料金・特典</a>
     <a href="#">コミュニティ</a>
     <a href="https://www.instagram.com/nursing_alliance?igsh=MTBjY2d5eDBoOGhrcw%3D%3D&utm_source=qr" target="_blank" class="nav-icon-btn" title="Instagram">
@@ -231,7 +231,7 @@ body{font-family:'Segoe UI',sans-serif;background:#fff;}
           <li class="inactive">ブログ全記事の閲覧</li>
           <li class="inactive">有料セミナーの会員価格</li>
         </ul>
-        <a href="https://forms.gle/ic987XoRMst3GooWA" target="_blank" class="plan-btn-outline">Peatixで参加登録する</a>
+        <a href="https://forms.gle/ic987XoRMst3GooWA" target="_blank" class="plan-btn-outline">無料ウェビナー「水パチ」に登録する</a>
       </div>
       <!-- 有料 -->
       <div class="plan-box paid">
@@ -301,39 +301,86 @@ body{font-family:'Segoe UI',sans-serif;background:#fff;}
         <span class="section-tag">BLOG</span>
         <h2 class="section-title dark">最新ブログ</h2>
       </div>
-      <a href="#" style="font-size:12px;color:#c9a84c;text-decoration:none;font-weight:600;">すべて見る →</a>
+      <a href="https://note.com/nursing_alliance" target="_blank" style="font-size:12px;color:#c9a84c;text-decoration:none;font-weight:600;">すべて見る →</a>
     </div>
-    <p class="section-desc dark">一部の記事はどなたでもご覧いただけます。全記事は会員登録後にお読みいただけます。</p>
-    <div class="blog-grid">
-      <div class="blog-card">
+    <p class="section-desc dark">noteで最新記事を公開中です。手術室・周術期看護に関するコラムをお届けしています。</p>
+    <div class="blog-grid" id="note-blog-grid">
+      <!-- noteから自動取得 -->
+      <a href="https://note.com/nursing_alliance" target="_blank" class="blog-card" style="text-decoration:none;cursor:pointer;">
         <div class="blog-img"><span class="blog-img-label">NURSING ALLIANCE</span></div>
         <div class="blog-body">
-          <div class="blog-tag">手術室管理</div>
-          <div class="blog-title">診療報酬改定2026と手術室看護師への影響</div>
-          <div class="blog-date">2025.04.01</div>
+          <div class="blog-title" style="color:#8aa0c8;font-size:12px;">記事を読み込み中...</div>
         </div>
-      </div>
-      <div class="blog-card">
-        <div class="blog-img"><span class="blog-img-label">NURSING ALLIANCE</span></div>
-        <div class="blog-body">
-          <div class="blog-tag">周術期看護</div>
-          <div class="blog-title">麻酔管理料Ⅱとは何か？現場の看護師が知っておくこと</div>
-          <div class="blog-date">2025.03.25</div>
-          <div class="blog-badge">会員限定</div>
-        </div>
-      </div>
-      <div class="blog-card">
-        <div class="blog-img"><span class="blog-img-label">NURSING ALLIANCE</span></div>
-        <div class="blog-body">
-          <div class="blog-tag">キャリア</div>
-          <div class="blog-title">手術室ナースのキャリアパスを考える</div>
-          <div class="blog-date">2025.03.18</div>
-          <div class="blog-badge">会員限定</div>
-        </div>
-      </div>
+      </a>
     </div>
   </div>
 </section>
+
+<script>
+(function() {
+  const NOTE_USER = 'nursing_alliance';
+  const NOTE_URL = 'https://note.com/' + NOTE_USER;
+  const PROXY = 'https://api.allorigins.win/get?url=';
+  const RSS_URL = encodeURIComponent('https://note.com/' + NOTE_USER + '/rss');
+
+  function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    if (isNaN(d)) return '';
+    return d.getFullYear() + '.' +
+      String(d.getMonth() + 1).padStart(2, '0') + '.' +
+      String(d.getDate()).padStart(2, '0');
+  }
+
+  function buildCards(items) {
+    const grid = document.getElementById('note-blog-grid');
+    if (!grid || items.length === 0) return;
+    grid.innerHTML = items.slice(0, 3).map(item => {
+      const thumb = item.thumb
+        ? `<div class="blog-img" style="height:120px;background:url('${item.thumb}') center/cover no-repeat;"></div>`
+        : `<div class="blog-img"><span class="blog-img-label">NURSING ALLIANCE</span></div>`;
+      return `
+      <a href="${item.link}" target="_blank" class="blog-card" style="text-decoration:none;cursor:pointer;">
+        ${thumb}
+        <div class="blog-body">
+          <div class="blog-title">${item.title}</div>
+          <div class="blog-date">${formatDate(item.date)}</div>
+        </div>
+      </a>`;
+    }).join('');
+  }
+
+  fetch(PROXY + RSS_URL)
+    .then(r => r.json())
+    .then(data => {
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data.contents, 'text/xml');
+      const items = Array.from(xml.querySelectorAll('item')).map(el => {
+        const thumb = el.querySelector('enclosure') 
+          ? el.querySelector('enclosure').getAttribute('url') 
+          : (el.querySelector('thumbnail') ? el.querySelector('thumbnail').getAttribute('url') : null);
+        return {
+          title: el.querySelector('title') ? el.querySelector('title').textContent : '',
+          link:  el.querySelector('link')  ? el.querySelector('link').textContent  : NOTE_URL,
+          date:  el.querySelector('pubDate') ? el.querySelector('pubDate').textContent : '',
+          thumb: thumb
+        };
+      });
+      buildCards(items);
+    })
+    .catch(() => {
+      // 取得失敗時はnoteへのリンクのみ表示
+      const grid = document.getElementById('note-blog-grid');
+      if (grid) {
+        grid.innerHTML = `
+        <a href="${NOTE_URL}" target="_blank" class="blog-card" style="text-decoration:none;cursor:pointer;grid-column:1/-1;">
+          <div class="blog-body" style="padding:24px;text-align:center;">
+            <div class="blog-title">noteで最新記事を読む →</div>
+          </div>
+        </a>`;
+      }
+    });
+})();
+</script>
 
 <!-- Section 5：紺 ── CTA -->
 <section class="section sec-navy" style="text-align:center;">
@@ -357,7 +404,7 @@ body{font-family:'Segoe UI',sans-serif;background:#fff;}
     </div>
     <div class="footer-links">
       <a href="#">水パチとは</a>
-      <a href="#">ブログ</a>
+      <a href="https://note.com/nursing_alliance" target="_blank">ブログ</a>
       <a href="#">料金プラン</a>
       <a href="https://www.instagram.com/nursing_alliance?igsh=MTBjY2d5eDBoOGhrcw%3D%3D&utm_source=qr" target="_blank">Instagram</a>
       <a href="https://line.me/ti/g2/y1MkPGzeMsnV_W_1qLpAft2m2LWmGvv97I6gow?utm_source=invitation&utm_medium=link_copy&utm_campaign=default" target="_blank">LINE</a>
