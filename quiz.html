@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>今日のクイズ | Nursing Alliance</title>
+<meta name="description" content="手術室看護師のための「今日のクイズ」。月・水・金に1問。答えるとポイントが貯まり、称号が上がります。登録不要・ニックネームだけで参加できます。">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#0d2141;--navy-deep:#060f22;--navy-card:#112a55;
+  --gold:#c9a84c;--gold-soft:rgba(201,168,76,0.15);
+  --ink:#ffffff;--muted:#8aa0c8;--line:rgba(255,255,255,0.12);
+  --good:#4fc98a;--bad:#e07a5f;
+}
+html{color-scheme:dark;}
+body{font-family:'Segoe UI','Hiragino Sans','Yu Gothic',sans-serif;background:var(--navy-deep);color:var(--ink);line-height:1.7;}
+
+/* NAV（本サイトと共通の見た目） */
+.nav{background:var(--navy);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.4);}
+.nav-brand{color:#fff;font-weight:800;font-size:14px;text-decoration:none;letter-spacing:.5px;}
+.nav-brand small{display:block;color:var(--gold);font-size:9px;letter-spacing:2px;font-weight:600;}
+.nav-links{display:flex;gap:16px;align-items:center;}
+.nav-links a{color:#ccd6f0;font-size:12px;text-decoration:none;}
+.nav-btn{background:var(--gold);color:var(--navy) !important;padding:7px 14px;border-radius:4px;font-weight:700 !important;}
+
+.wrap{max-width:640px;margin:0 auto;padding:32px 20px 60px;display:flex;flex-direction:column;gap:18px;}
+.tag{display:inline-block;color:var(--gold);font-size:10px;letter-spacing:2px;font-weight:600;}
+h1{font-size:22px;font-weight:800;line-height:1.35;margin-top:4px;}
+h1 span{color:var(--gold);}
+.lead{color:var(--muted);font-size:12px;line-height:1.9;margin-top:6px;}
+
+.card{background:var(--navy-card);border:1px solid var(--line);border-radius:12px;padding:22px;}
+.card.gold{border:2px solid var(--gold);}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-size:11px;color:var(--muted);margin-bottom:12px;}
+.meta b{color:var(--gold);}
+.q{font-size:16px;font-weight:700;line-height:1.6;margin-bottom:16px;}
+.opts{display:grid;gap:10px;}
+.opt{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;background:rgba(255,255,255,0.04);border:1.5px solid var(--line);color:#fff;border-radius:10px;padding:12px 14px;font:inherit;font-size:13.5px;line-height:1.55;cursor:pointer;transition:border-color .15s,background .15s;}
+.opt .k{flex:none;width:26px;height:26px;border-radius:50%;background:var(--gold-soft);color:var(--gold);font-weight:800;display:grid;place-items:center;font-size:12px;}
+.opt:hover{border-color:var(--gold);}
+.opt[aria-pressed="true"]{border-color:var(--gold);background:var(--gold-soft);}
+.opt.correct{border-color:var(--good);background:rgba(79,201,138,0.12);}
+.opt.wrong{border-color:var(--bad);background:rgba(224,122,95,0.12);}
+.opt:disabled{cursor:default;}
+.opt:focus-visible,.btn:focus-visible,input:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+
+.field{display:grid;gap:6px;margin:16px 0 4px;}
+.field label{font-size:11px;color:var(--muted);font-weight:600;}
+input[type=text]{font:inherit;font-size:14px;padding:10px 12px;border-radius:8px;border:1px solid var(--line);background:rgba(255,255,255,0.05);color:#fff;width:100%;}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px;}
+.btn{background:var(--gold);color:var(--navy);padding:11px 22px;border-radius:4px;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:inherit;}
+.btn.outline{background:transparent;color:var(--gold);border:1px solid var(--gold);}
+.btn:disabled{opacity:.45;cursor:default;}
+.hint{font-size:11.5px;color:var(--muted);}
+
+.verdict{font-size:20px;font-weight:800;margin-bottom:6px;}
+.verdict.ok{color:var(--good);}
+.verdict.ng{color:var(--bad);}
+.pts{display:inline-block;background:var(--gold-soft);color:var(--gold);border-radius:20px;padding:3px 12px;font-size:12px;font-weight:700;margin-left:8px;vertical-align:middle;}
+.note{background:rgba(255,255,255,0.05);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:12px 14px;font-size:12.5px;line-height:1.8;margin-top:14px;color:#dbe4f5;}
+.note b{color:var(--gold);}
+
+.me{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center;}
+.me .v{color:var(--gold);font-size:20px;font-weight:800;font-variant-numeric:tabular-nums;}
+.me .l{color:var(--muted);font-size:10px;letter-spacing:1px;}
+.title-badge{display:inline-block;background:var(--gold);color:var(--navy);border-radius:4px;padding:3px 10px;font-size:12px;font-weight:800;}
+.progress{height:8px;border-radius:4px;background:rgba(255,255,255,0.08);overflow:hidden;margin-top:10px;}
+.progress i{display:block;height:100%;background:var(--gold);border-radius:4px;transition:width .5s;}
+
+.rank{list-style:none;display:grid;gap:6px;}
+.rank li{display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center;padding:9px 12px;border-radius:8px;background:rgba(255,255,255,0.04);font-size:13px;}
+.rank li.me{background:var(--gold-soft);border:1px solid var(--gold);}
+.rank .n{color:var(--gold);font-weight:800;font-variant-numeric:tabular-nums;}
+.rank .nm{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rank .nm small{display:block;color:var(--muted);font-size:10px;}
+.rank .p{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap;}
+.rank .p small{color:var(--muted);font-weight:400;font-size:10px;}
+.titles{display:grid;gap:4px;font-size:11.5px;color:var(--muted);margin-top:12px;}
+.titles div{display:flex;justify-content:space-between;}
+.titles b{color:#dbe4f5;font-weight:600;}
+
+.wait{text-align:center;padding:24px 10px;}
+.wait .big{font-size:28px;font-weight:800;color:var(--gold);}
+footer{text-align:center;color:#4a5a7a;font-size:10px;line-height:1.8;padding:0 20px 30px;}
+footer a{color:#6a82a8;}
+@media(max-width:480px){.nav{padding:10px 16px;}.nav-links a:not(.nav-btn){display:none;}.wrap{padding:24px 14px 50px;}h1{font-size:19px;}.me{grid-template-columns:1fr 1fr;}}
+@media(prefers-reduced-motion:reduce){*{transition:none !important;}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-brand" href="/">NURSING ALLIANCE<small>今日のクイズ</small></a>
+  <div class="nav-links">
+    <a href="/">トップ</a>
+    <a href="https://note.com/nursing_alliance" target="_blank" rel="noopener">ブログ</a>
+    <a href="https://forms.gle/ic987XoRMst3GooWA" target="_blank" rel="noopener" class="nav-btn">水パチに参加</a>
+  </div>
+</nav>
+
+<main class="wrap">
+  <div>
+    <span class="tag">DAILY QUIZ · 循環器・モニタリング編</span>
+    <h1>今日の<span>1問</span>、パチっと解こう。</h1>
+    <p class="lead">月・水・金に1問ずつ。答えるとポイントが貯まり、称号が上がります。<br>登録不要、ニックネームだけで参加できます。</p>
+  </div>
+
+  <section class="card gold" id="quiz">
+    <div class="wait"><div class="big">パチっと！</div><p class="hint">読み込んでいます…</p></div>
+  </section>
+
+  <section class="card" id="mine" hidden>
+    <div class="meta"><span>あなたの記録</span><span id="myTitle"></span></div>
+    <div class="me">
+      <div><div class="v" id="myTotal">0</div><div class="l">累計ポイント</div></div>
+      <div><div class="v" id="myStreak">0</div><div class="l">連続回答</div></div>
+      <div><div class="v" id="myRank">–</div><div class="l">今月の順位</div></div>
+    </div>
+    <div class="progress"><i id="myBar" style="width:0%"></i></div>
+    <p class="hint" id="myNext" style="margin-top:6px"></p>
+  </section>
+
+  <section class="card">
+    <div class="meta"><span>今月のランキング <b id="rankMonth"></b></span><span id="rankPlayers"></span></div>
+    <ol class="rank" id="rank"><li><span class="n">–</span><span class="nm">読み込んでいます…</span><span class="p"></span></li></ol>
+    <div class="titles">
+      <div><b>称号の目安（累計ポイント）</b></div>
+      <div><span>パチ見習い</span><span>0〜</span></div>
+      <div><span>パチ修行中</span><span>50〜</span></div>
+      <div><span>循環器チャレンジャー</span><span>150〜</span></div>
+      <div><span>循環器マスター</span><span>300〜</span></div>
+      <div><span>パチ師範</span><span>600〜</span></div>
+    </div>
+    <p class="hint" style="margin-top:12px">正解 10pt ／ 挑戦 3pt ／ 5回連続で +20pt。月間ランキングは毎月1日にリセットされます（累計ポイントと称号は残ります）。</p>
+  </section>
+</main>
+
+<footer>
+  Nursing Alliance 水パチ「今日のクイズ」は学習用です。実際の臨床判断は各施設の基準と医師の指示に従ってください。<br>
+  ニックネームとポイントは、この端末（ブラウザ）に紐づいて記録されます。端末を変えると、記録は引き継がれません。
+</footer>
+
+<script>
+(function(){
+  const KEYS=["A","B","C","D"];
+  const $=s=>document.querySelector(s);
+  const quiz=$("#quiz");
+  let token=null,nick="",today=null,pending=null;
+
+  function esc(s){return String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+  function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}}
+  function makeToken(){const a=new Uint8Array(18);crypto.getRandomValues(a);return btoa(String.fromCharCode(...a)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+  token=ls("suipachi_quiz_token")||makeToken(); ls("suipachi_quiz_token",token);
+  nick=ls("suipachi_quiz_nick")||"";
+
+  async function api(path,opt){const r=await fetch(path,opt);return r.json()}
+
+  function renderQuestion(){
+    const t=today;
+    if(t.status==="before_start"){quiz.innerHTML=`<div class="wait"><div class="big">まもなく開始</div><p class="hint">第1問は ${esc(t.nextOn)} に出題します。</p></div>`;return}
+    if(t.status==="exhausted"){quiz.innerHTML=`<div class="wait"><div class="big">次の問題を準備中</div><p class="hint">全${t.total}問、おつかれさまでした。次のシリーズをお楽しみに。</p></div>`;return}
+    const q=t.question;
+    if(t.answered){renderResult(t.answered,true);return}
+    quiz.innerHTML=`<div class="meta"><span>第 <b>${t.number}</b> 問 ／ 全${t.total}問</span><span>出題日 ${esc(t.openedOn)}・次回 ${esc(t.nextOn)}</span></div>
+      <div class="q">${esc(q.text)}</div>
+      <div class="opts">${q.opts.map((o,i)=>`<button class="opt" data-i="${i}" aria-pressed="${pending===i}"><span class="k">${KEYS[i]}</span><span>${esc(o)}</span></button>`).join("")}</div>
+      <div class="field"><label for="nick">ニックネーム（ランキングに表示されます・16文字まで）</label><input type="text" id="nick" maxlength="16" placeholder="例：オペ室3年目" value="${esc(nick)}"></div>
+      <div class="row"><button class="btn" id="send" ${pending===null?"disabled":""}>回答する</button><span class="hint">ひとつ選んで「回答する」</span></div>`;
+    quiz.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>{pending=+b.dataset.i;quiz.querySelectorAll(".opt").forEach(x=>x.setAttribute("aria-pressed",x===b));$("#send").disabled=false}));
+    $("#send").addEventListener("click",submit);
+  }
+
+  function renderResult(r,already){
+    const q=today.question;
+    quiz.innerHTML=`<div class="meta"><span>第 <b>${today.number}</b> 問 ／ 全${today.total}問</span><span>次回 ${esc(today.nextOn)}</span></div>
+      <div class="verdict ${r.correct?"ok":"ng"}">${r.correct?"正解！":"惜しい！"}<span class="pts">+${r.points}pt${r.bonus?` ＋連続ボーナス ${r.bonus}pt`:""}</span></div>
+      <div class="q" style="font-size:14px">${esc(q.text)}</div>
+      <div class="opts">${q.opts.map((o,i)=>`<button class="opt ${i===r.correctChoice?"correct":(i===r.choice?"wrong":"")}" disabled><span class="k">${KEYS[i]}</span><span>${esc(o)}${i===r.correctChoice?" ✓":""}</span></button>`).join("")}</div>
+      ${r.note?`<div class="note"><b>解説</b><br>${esc(r.note)}</div>`:""}
+      <p class="hint" style="margin-top:12px">${already?"この問題は回答済みです。":"回答を記録しました。"}次の問題は ${esc(today.nextOn)} です。</p>`;
+  }
+
+  async function submit(){
+    const n=$("#nick").value.trim(); if(n){nick=n;ls("suipachi_quiz_nick",n)}
+    $("#send").disabled=true;
+    try{
+      const r=await api("/api/quiz/answer",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({token,nickname:nick,qid:today.question.id,choice:pending})});
+      if(!r.ok){quiz.querySelector(".hint").textContent=r.message||"送信できませんでした。時間をおいてお試しください。";$("#send").disabled=false;return}
+      renderResult(r,false); showMe({nickname:nick,total:r.total,streak:r.streak,title:r.title,next:r.next}); loadRanking();
+    }catch(e){quiz.querySelector(".hint").textContent="送信できませんでした。通信状況をご確認ください。";$("#send").disabled=false}
+  }
+
+  function showMe(p){
+    if(!p)return; $("#mine").hidden=false;
+    $("#myTitle").innerHTML=`<span class="title-badge">${esc(p.title)}</span>`;
+    $("#myTotal").textContent=p.total; $("#myStreak").textContent=p.streak;
+    if(p.next){$("#myNext").textContent=`次の称号「${p.next.name}」まで あと ${p.next.remaining}pt`;
+      const from=lowerBound(p.total), span=(p.total-from)+p.next.remaining; $("#myBar").style.width=Math.min(100,100*(p.total-from)/span)+"%"}
+    else{$("#myNext").textContent="最高称号に到達しました。おめでとうございます！";$("#myBar").style.width="100%"}
+  }
+  function lowerBound(t){return [600,300,150,50,0].find(m=>t>=m)}
+
+  async function loadRanking(){
+    try{
+      const r=await api("/api/quiz/ranking?token="+encodeURIComponent(token));
+      $("#rankMonth").textContent=r.month?r.month.replace("-","年")+"月":"";
+      $("#rankPlayers").textContent=r.players?`参加 ${r.players}人`:"";
+      const el=$("#rank");
+      if(!r.ranking||!r.ranking.length){el.innerHTML=`<li><span class="n">–</span><span class="nm">今月はまだ誰も回答していません。最初の1人になりませんか？</span><span class="p"></span></li>`}
+      else el.innerHTML=r.ranking.map(x=>`<li class="${x.me?"me":""}"><span class="n">${x.rank}</span><span class="nm">${esc(x.nickname)}${x.me?"（あなた）":""}<small>${esc(x.title)}</small></span><span class="p">${x.monthPoints}pt <small>${x.answered}問</small></span></li>`).join("");
+      if(r.me){$("#myRank").textContent=r.me.rank+"位"}
+    }catch(e){}
+  }
+
+  async function start(){
+    try{ today=await api("/api/quiz/today?token="+encodeURIComponent(token)); }
+    catch(e){quiz.innerHTML=`<div class="wait"><div class="big">読み込めませんでした</div><p class="hint">時間をおいて再度お試しください。</p></div>`;return}
+    if(today.error){quiz.innerHTML=`<div class="wait"><div class="big">準備中</div><p class="hint">クイズは現在準備中です。</p></div>`;return}
+    if(today.player){nick=today.player.nickname||nick;showMe(today.player)}
+    renderQuestion(); loadRanking();
+  }
+  start();
+})();
+</script>
+</body>
+</html>
